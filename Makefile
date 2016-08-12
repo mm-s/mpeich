@@ -13,9 +13,13 @@ graph.png: graph.dot
 leafs: mpeich
 	./mpeich leafs > leafs
 	
-
+pub: graph.png
+	cp graph.png htdocs/
+	./mpeich branches > htdocs/branches
 clean:
 	rm -f mpeich
 	rm -f graph.png
 	rm -f leafs
+	rm -f htdocs/branches
+	rm -f htdocs/graph.png
 
