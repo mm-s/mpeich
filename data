@@ -1,0 +1,136 @@
+task 1 inquilino dentro
+task 2 firma contrato
+dep 1 -> 2
+task 3 preparar contrato
+dep 2 -> 3
+task 4 visita
+dep 2 -> 4
+task 5 poder ruben
+dep 4 -> 5
+task 6 ir notario
+dep 5 -> 6
+task 7 investigar mercado
+task 8 decidir precio
+task 9 ruben ir EMV
+dep 8 -> 9
+dep 8 -> 7
+task 10 redactar anuncio
+dep 10 -> 8
+task 11 sacar fotos
+task 12 publicar
+dep 12 -> 10
+dep 12 -> 11
+dep 4 -> 12
+task 13 cita con hacienda
+dep 8 -> 13
+dep 3 -> 13
+dep 3 -> 9
+task 14 casa acondicionada
+dep 11 -> 14
+task 15 garaje acondicionado
+dep 14 -> 15
+task 16 mover astra
+dep 15 -> 16
+task 17 buscar parking astra
+dep 16 -> 17
+task 18 casa limpia
+dep 14 -> 18
+task 19 casa vacia
+dep 14 -> 19
+task 20 Inspeccion calif energetica
+dep 20 -> 19
+dep 2 -> 20
+task 21 transporte
+task 22 transportar basura a punto limpio
+task 23 transportar a trasteros
+task 24 transportar trastero Judith
+task 25 transportar trastero Noe
+task 26 transportar trastero Alquilado
+task 27 preparar trastero Noe
+dep 25 -> 27
+dep 21 -> 22
+dep 21 -> 23
+dep 23 -> 26
+dep 25 -> 24
+dep 26 -> 25
+task 28 contratar trastero
+dep 26 -> 28
+task 29 saber disponibilidad
+dep 28 -> 29
+dep 4 -> 14
+dep 19 -> 21
+task 30 hacer cajas
+dep 24 -> 30
+task 31 trocear
+dep 14 -> 19
+dep 22 -> 31
+task 32 desmontar
+task 33 desmontar cama
+task 34 desmontar estanterias
+dep 32 -> 33
+dep 32 -> 34
+dep 19 -> 32
+task 35 arreglos
+dep 14 -> 35
+task 36 vaciar dormitorio
+task 37 pintar dormitorio
+dep 19 -> 36
+dep 37 -> 36
+task 38 pintar casa
+dep 38 -> 37
+dep 35 -> 38
+task 39 comprar pintura
+dep 37 -> 39
+dep 38 -> 39
+cost 39 100
+text 39 25 Kg x 3 
+task 40 humedades
+dep 35 -> 40
+task 41 goteras
+dep 35 -> 41
+task 42 puerta terraza
+dep 35 -> 42
+task 43 agujero pasillo
+dep 35 -> 43
+task 44 luces
+dep 35 -> 44
+task 45 nevera
+dep 35 -> 45
+task 46 tiradores cocina
+dep 35 -> 46
+task 47 cisterna vater
+dep 35 -> 47
+task 48 comprar kits papel higienico
+dep 35 -> 48
+task 49 parquet
+dep 35 -> 49
+dep 49 -> 38
+task 50 comprar tiradores cocina
+dep 46 -> 50
+task 51 investigar puerta terraza
+task 52 comprar piezas puerta terraza
+dep 42 -> 52
+dep 52 -> 51
+task 53 comprar pieza cisterna vater
+dep 47 -> 53
+task 54 poner tiradores nevera
+task 55 poner cajones nevera
+task 56 comprar tiradores nevera
+task 57 comprar cajones nevera
+dep 54 -> 56
+dep 55 -> 57
+dep 45 -> 54
+dep 45 -> 55
+task 58 luces pasillo
+task 59 luces hall
+task 60 luces cocina
+task 61 luces baños
+dep 44 -> 58
+dep 44 -> 59
+dep 44 -> 60
+dep 44 -> 61
+task 62 comprar luces
+dep 58 -> 62
+dep 59 -> 62
+dep 60 -> 62
+dep 61 -> 62

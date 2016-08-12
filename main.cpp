@@ -9,6 +9,7 @@
 #include <queue>
 #include <stack>
 #include <limits>
+#include <fstream>
 
 using namespace std;
 
@@ -415,11 +416,14 @@ void graph_example() {
 struct task {
 	task(string n): name(n), duration(0), id(++next_id) {
 	}
+	task(int id_, string n): name(n), duration(0), id(id_) {
+		if (next_id<=id_) next_id=id_+1;
+	}
 	int id;
 	string name;
 	int duration;
 	int cost{0};
-	string text;
+	vector<string> text;
 	static int next_id;
 };
 
@@ -430,23 +434,80 @@ int task::next_id=0;
 unordered_map<int,task> tasks;
 vector<pair<int,int>> al; //adjacency list
 
+int goal=-1;
+
+void load(istream& is) {
+	while(!is.eof()) {
+		string line;
+		getline(is,line);
+		if (line.empty()) continue;
+		istringstream lis(line);
+		string type;
+		lis >> type;
+		if (type=="task") {
+			int id=0;
+			lis >> id;
+			if (goal==-1) goal=id;
+			char s; lis>>s;
+			string label;
+			getline(lis,label);
+			task t(id,label);
+			tasks.emplace(id,t);
+		}
+		else if (type=="dep") {
+			int to, from;
+			string tkn;
+			lis >> to;
+			lis >> tkn;
+			lis >> from;
+			al.emplace_back(to,from);
+		}
+		else if (type=="cost") {
+			int id;
+			int v;
+			lis >> id;
+			lis >> v;
+			tasks.find(id)->second.cost=v;
+		}
+		else if (type=="dur") {
+			int id;
+			int v;
+			lis >> id;
+			lis >> v;
+			tasks.find(id)->second.duration=v;
+		}
+		else if (type=="text") {
+			int id=0;
+			lis >> id;
+			string lin;
+			getline(lis,lin);
+			tasks.find(id)->second.text.push_back(lin);
+		}
+	}
+}
+
 
 int regtask(string name) {
 	task t(name);
 	tasks.emplace(t.id,t);
+	cout << "task" << " " << t.id << " " << name << endl;
 	return t.id;
 }
-void dep(int from, int to) {
-	al.emplace_back(from,to);
+void dep(int to, int from) {
+	al.emplace_back(to,from);
+	cout << "dep" << " " << to << " -> " << from << endl;
 }
 void cost(int id, int v) {
 	tasks.find(id)->second.cost=v;
+	cout << "cost" << " " << id << " " << v << endl;
 }
 void dur(int id, int v) {
 	tasks.find(id)->second.duration=v;
+	cout << "dur" << " " << id << " " << v << endl;
 }
 void text(int id, string v) {
-	tasks.find(id)->second.text=v;
+	tasks.find(id)->second.text.push_back(v);
+	cout << "text" << " " << id << " " << v << endl;
 }
 #include <functional>
 #include <unordered_set>
@@ -463,6 +524,11 @@ struct leafs:graph::visitor {
 };
 
 void mp(string cmd) {
+	{
+	ifstream is("data");
+	load(is);
+	}
+/*
 	int id=regtask("inquilino dentro");
 	int fc=regtask("firma contrato");
 	dep(id,fc);
@@ -626,6 +692,7 @@ void mp(string cmd) {
 	dep(luha,colu);
 	dep(luco,colu);
 	dep(luba,colu);
+*/
 
 	auto f=[&](int id)-> string { 
 		ostringstream os;
@@ -641,8 +708,9 @@ void mp(string cmd) {
 	}
 	else if (cmd=="leafs") {
 		leafs visitor(f);
-		g.breath_first(id,visitor);
+		g.breath_first(goal,visitor);
 	}
+
 }
 
 
