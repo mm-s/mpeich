@@ -3,7 +3,7 @@ all: graph.png leafs
 mpeich: main.cpp
 	g++ -g -std=c++14 main.cpp -o mpeich
 
-graph.dot: mpeich
+graph.dot: mpeich data
 	./mpeich dot > graph.dot
 
 

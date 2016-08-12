@@ -10,6 +10,8 @@
 #include <stack>
 #include <limits>
 #include <fstream>
+#include <functional>
+#include <unordered_set>
 
 using namespace std;
 
@@ -192,6 +194,9 @@ struct best_path:graph::visitor {
 	const vertex* f{0};
 	const vertex* t{0};
 	struct result:vector<const vertex*> {
+		void dump(const std::function <string (int)>& _t, ostream& os) const {
+			for (auto i:*this) os << i->id << " " << _t(i->id) << endl;
+		}
 		void dump(ostream& os) const {
 			for (auto i:*this) os << i->id << endl;
 		}
@@ -312,10 +317,10 @@ struct best_path:graph::visitor {
 		}		
 		//reverse it
 		r.reserve(rp.size()+1);
+		r.push_back(f);
 		for (auto i=rp.rbegin(); i!=rp.rend(); ++i) {
 			r.push_back(*i);
 		}
-		r.push_back(f);
 	}
 
 
@@ -334,8 +339,9 @@ struct data {
 
 template<typename T>
 struct scalar {
-	T value{0};
+	T value{1};
 	scalar() { }
+	scalar(const T&t): value(t) { }
 	scalar(string& s) {
 		istringstream is(s);
 		is>>value;
@@ -457,7 +463,6 @@ void load(istream& is) {
 			int id=0;
 			lis >> id;
 			if (goal==-1) goal=id;
-			char s; lis>>s;
 			string label;
 			getline(lis,label);
 			task t(id,label);
@@ -518,11 +523,8 @@ void text(int id, string v) {
 	tasks.find(id)->second.text.push_back(v);
 	cout << "text" << " " << id << " " << v << endl;
 }
-#include <functional>
-#include <unordered_set>
 struct leafs:graph::visitor {
-	std::function <string (int)> _t;
-	leafs(std::function <string (int)> t):_t(t) {}
+	leafs() {}
 	void visit(const vertex&v) override {
 		if (!v.is_leaf()) return;
 		if (_uniq.find(v.id)!=_uniq.end()) return;
@@ -530,7 +532,7 @@ struct leafs:graph::visitor {
 	}
 	unordered_set<int> _uniq;
 
-	void dump(ostream& os) const {
+	void dump(const std::function <string (int)>& _t, ostream& os) const {
 		for (auto id: _uniq)
 			cout << id << " " << _t(id) << endl;
 	}
@@ -541,171 +543,6 @@ void mp(string cmd) {
 	ifstream is("data");
 	load(is);
 	}
-/*
-	int id=regtask("inquilino dentro");
-	int fc=regtask("firma contrato");
-	dep(id,fc);
-	int pc=regtask("preparar contrato");
-	dep(fc,pc);
-
-	int vi=regtask("visita");
-	dep(fc,vi);
-	int pr=regtask("poder ruben");
-	dep(vi,pr);
-	int in=regtask("ir notario");
-	dep(pr,in);
-
-	int ime=regtask("investigar mercado");
-
-	int depe=regtask("decidir precio");
-
-	int riemv=regtask("ruben ir EMV");
-	dep(depe,riemv);
-	dep(depe,ime);
-	int rea=regtask("redactar anuncio");
-	dep(rea,depe);
-	int safo=regtask("sacar fotos");
-	int publ=regtask("publicar");
-	dep(publ,rea);
-	dep(publ,safo);
-	dep(vi,publ);
-
-	int ciha=regtask("cita con hacienda");
-	dep(depe,ciha);
-	dep(pc,ciha);
-	dep(pc,riemv);
-
-	int ca=regtask("casa acondicionada");
-	dep(safo,ca);
-
-	int ga=regtask("garaje acondicionado");
-	dep(ca,ga);
-	int ma=regtask("mover astra");
-	dep(ga,ma);
-	int bpa=regtask("buscar parking astra");
-	dep(ma,bpa);
-
-	int cl=regtask("casa limpia");
-	dep(ca,cl);
-
-	int cv=regtask("casa vacia");
-	dep(ca,cv);
-
-	int ice=regtask("Inspeccion calif energetica");
-	dep(ice,cv);
-	dep(fc,ice);
-
-	int tra=regtask("transporte");
-	int trapl=regtask("transportar basura a punto limpio");
-	int tratr=regtask("transportar a trasteros");
-	int tratrj=regtask("transportar trastero Judith");
-	int tratrn=regtask("transportar trastero Noe");
-	int tratra=regtask("transportar trastero Alquilado");
-
-	int pretrn=regtask("preparar trastero Noe");
-
-	dep(tratrn,pretrn);
-	dep(tra,trapl);
-	dep(tra,tratr);
-	dep(tratr,tratra);
-	dep(tratrn,tratrj);
-	dep(tratra,tratrn);
-	int cotra=regtask("contratar trastero");
-	dep(tratra,cotra);
-	int llasadi=regtask("saber disponibilidad");
-	dep(cotra,llasadi);
-	dep(vi,ca);
-
-	dep(cv,tra);
-	int cajas=regtask("hacer cajas");
-	dep(tratrj,cajas);
-
-	int tro=regtask("trocear");
-	dep(ca,cv);
-	dep(trapl,tro);
-	int dm=regtask("desmontar");
-	int dmc=regtask("desmontar cama");
-	int dme=regtask("desmontar estanterias");
-	dep(dm,dmc);
-	dep(dm,dme);
-	dep(cv,dm);
-
-	int fi=regtask("arreglos");
-	dep(ca,fi);
-	
-	int vadorm=regtask("vaciar dormitorio");
-	int pidorm=regtask("pintar dormitorio");
-	dep(cv,vadorm);
-	dep(pidorm,vadorm);
-	int pica=regtask("pintar casa");
-	dep(pica,pidorm);
-	dep(fi,pica);
-
-	int copi=regtask("comprar pintura");
-	dep(pidorm,copi);
-	dep(pica,copi);
-	cost(copi,100);
-	text(copi,"25 Kg x 3 ");
-
-	int hu=regtask("humedades");
-	dep(fi,hu);
-
-	int go=regtask("goteras");
-	dep(fi,go);
-	int pt=regtask("puerta terraza");
-	dep(fi,pt);
-	int ap=regtask("agujero pasillo");
-	dep(fi,ap);
-	int lu=regtask("luces");
-	dep(fi,lu);
-	int ne=regtask("nevera");
-	dep(fi,ne);
-	int tico=regtask("tiradores cocina");
-	dep(fi,tico);
-	int civa=regtask("cisterna vater");
-	dep(fi,civa);
-	int kipa=regtask("comprar kits papel higienico");
-	dep(fi,kipa);
-	int pq=regtask("parquet");
-	dep(fi,pq);
-	dep(pq,pica);
-
-	int cotico=regtask("comprar tiradores cocina");
-	dep(tico,cotico);
-
-	int ipt=regtask("investigar puerta terraza");
-	int cppt=regtask("comprar piezas puerta terraza");
-	dep(pt,cppt);
-	dep(cppt,ipt);
-
-	int cpcva=regtask("comprar pieza cisterna vater");
-	dep(civa,cpcva);
-
-	int potine=regtask("poner tiradores nevera");
-	int pocane=regtask("poner cajones nevera");
-	int cotine=regtask("comprar tiradores nevera");
-	int cocane=regtask("comprar cajones nevera");
-	dep(potine,cotine);
-	dep(pocane,cocane);
-	dep(ne,potine);
-	dep(ne,pocane);
-
-
-	int lupa=regtask("luces pasillo");
-	int luha=regtask("luces hall");
-	int luco=regtask("luces cocina");
-	int luba=regtask("luces baños");
-	dep(lu,lupa);
-	dep(lu,luha);
-	dep(lu,luco);
-	dep(lu,luba);
-
-	int colu=regtask("comprar luces");
-	dep(lupa,colu);
-	dep(luha,colu);
-	dep(luco,colu);
-	dep(luba,colu);
-*/
 
 	auto f=[&](int id)-> string { 
 		ostringstream os;
@@ -720,12 +557,12 @@ void mp(string cmd) {
 		g.dot(f, cout);
 	}
 	else if (cmd=="leafs") {
-		leafs visitor(f);
+		leafs visitor;
 		g.breath_first(goal,visitor);
-		visitor.dump(cout);
+		visitor.dump(f,cout);
 	}
 	else if (cmd=="branches") {
-		leafs visitor(f);
+		leafs visitor;
 		g.breath_first(goal,visitor);
 
 		for (auto lf:visitor._uniq) {
@@ -733,10 +570,10 @@ void mp(string cmd) {
 			typedef best_path<scalar<int>,data> pathfinder;
 			pathfinder bp(g);
 			auto r=bp.compute(goal,lf,pathfinder::breath_first);
-			r.dump(cout);
+			r.dump(f,cout);
 			cout << endl;
 		}
-
+		
 	}
 
 }

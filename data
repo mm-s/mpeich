@@ -62,7 +62,7 @@ dep 19 -> 21
 task 30 hacer cajas
 dep 24 -> 30
 task 31 trocear
-dep 14 -> 19
+dep 18 -> 19
 dep 22 -> 31
 task 32 desmontar
 task 33 desmontar cama
