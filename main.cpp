@@ -56,8 +56,15 @@ struct graph {
 	template<class P>
 	void dot(const P& pred, ostream& os) const {
 		os << "digraph {" << endl;
+		for (auto v: V) {
+			os << "task" << v.second->id << "[label=\"" << v.second->id << ": " << pred(v.second->id) << "\"";
+			if (v.second->is_leaf()) {
+				os << ",color=red";
+			}
+			os << "];" << endl;
+		}
 		for (auto e: E) {
-			os << pred(e.second->from->id) << " -> " << pred(e.second->to->id) << endl;
+			os << "task" << e.second->to->id << " -> task" << e.second->from->id << ";" << endl;
 		}
 		os << "}" << endl;
 	}
@@ -622,9 +629,9 @@ void mp(string cmd) {
 
 	auto f=[&](int id)-> string { 
 		ostringstream os;
-		os << "\"";
+//		os << "\"";
 		os << tasks.find(id)->second.name;
-		os << "\"";
+//		os << "\"";
 		return os.str();
 		};
 
