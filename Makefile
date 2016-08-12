@@ -1,4 +1,4 @@
-all: graph.png leafs
+all:  pub
 
 mpeich: main.cpp
 	g++ -g -std=c++14 main.cpp -o mpeich

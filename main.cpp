@@ -194,6 +194,11 @@ struct best_path:graph::visitor {
 	const vertex* f{0};
 	const vertex* t{0};
 	struct result:vector<const vertex*> {
+		void dump_html(const std::function <string (int)>& _t, ostream& os) const {
+			for (auto i:*this) {
+				os << "<div class=\"task\" id=\"" << i->id << "\">" << _t(i->id) << "</div>" << endl;
+			}
+		}
 		void dump(const std::function <string (int)>& _t, ostream& os) const {
 			for (auto i:*this) os << i->id << " " << _t(i->id) << endl;
 		}
@@ -566,12 +571,12 @@ void mp(string cmd) {
 		g.breath_first(goal,visitor);
 
 		for (auto lf:visitor._uniq) {
-			cout << "branch " << lf << " to " << goal << endl;
+			cout << "<div class=\"branch\">" << endl;
 			typedef best_path<scalar<int>,data> pathfinder;
 			pathfinder bp(g);
 			auto r=bp.compute(goal,lf,pathfinder::breath_first);
-			r.dump(f,cout);
-			cout << endl;
+			r.dump_html(f,cout);
+			cout << "</div>" << endl;
 		}
 		
 	}
