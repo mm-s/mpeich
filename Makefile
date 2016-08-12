@@ -1,7 +1,7 @@
 all: graph.png leafs
 
 mpeich: main.cpp
-	g++ -std=c++14 main.cpp -o mpeich
+	g++ -g -std=c++14 main.cpp -o mpeich
 
 graph.dot: mpeich
 	./mpeich dot > graph.dot

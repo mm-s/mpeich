@@ -197,6 +197,8 @@ struct best_path:graph::visitor {
 		}
 	};
 	result r;
+	best_path(const graph&g_): g(g_) { //adjacency list + values
+	}
 	best_path(const graph&g_, const vector<string>& al_values): g(g_) { //adjacency list + values
 		for (auto& l:al_values) {
 			int v1=-1;
@@ -247,7 +249,13 @@ struct best_path:graph::visitor {
 	}
 
 	data& relax(const edge& e) {
-		auto& ed=values.find(&e)->second;
+		auto edi=values.find(&e);
+		if (edi==values.end()) {
+			values.emplace(&e,T());
+			edi=values.find(&e);
+		}
+		auto& ed=edi->second;
+
 		auto ivdf=vd.find(e.from);
 		if (ivdf==vd.end()) {
 			vd.emplace(e.from,data());
@@ -327,6 +335,7 @@ struct data {
 template<typename T>
 struct scalar {
 	T value{0};
+	scalar() { }
 	scalar(string& s) {
 		istringstream is(s);
 		is>>value;
@@ -518,9 +527,13 @@ struct leafs:graph::visitor {
 		if (!v.is_leaf()) return;
 		if (_uniq.find(v.id)!=_uniq.end()) return;
 		_uniq.emplace(v.id);
-		cout << v.id << " " << _t(v.id) << endl;
 	}
 	unordered_set<int> _uniq;
+
+	void dump(ostream& os) const {
+		for (auto id: _uniq)
+			cout << id << " " << _t(id) << endl;
+	}
 };
 
 void mp(string cmd) {
@@ -709,12 +722,31 @@ void mp(string cmd) {
 	else if (cmd=="leafs") {
 		leafs visitor(f);
 		g.breath_first(goal,visitor);
+		visitor.dump(cout);
+	}
+	else if (cmd=="branches") {
+		leafs visitor(f);
+		g.breath_first(goal,visitor);
+
+		for (auto lf:visitor._uniq) {
+			cout << "branch " << lf << " to " << goal << endl;
+			typedef best_path<scalar<int>,data> pathfinder;
+			pathfinder bp(g);
+			auto r=bp.compute(goal,lf,pathfinder::breath_first);
+			r.dump(cout);
+			cout << endl;
+		}
+
 	}
 
 }
 
 
 int main(int argc, char** argv) {
+	if (argc!=2) {
+		cout << "dot leafs branches" << endl;
+		return 1;
+	}
 	string cmd=argv[1];
 	
 	mp(cmd);
