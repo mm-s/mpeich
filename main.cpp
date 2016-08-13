@@ -57,11 +57,14 @@ struct graph {
 		}
 	}
 	template<class P>
-	void dot(const P& pred, ostream& os) const {
+	void dot(const P& pred, const function<bool(const vertex&)>& is_leaf, const function<bool(const vertex&)>& is_done, ostream& os) const {
 		os << "digraph {" << endl;
 		for (auto v: V) {
 			os << "task" << v.second->id << "[label=\"" << v.second->id << ": " << pred(v.second->id) << "\"";
-			if (v.second->is_leaf()) {
+			if (is_done(*v.second)) {
+				os << ",color=green";
+			}
+			else if (is_leaf(*v.second)) {
 				os << ",color=red";
 			}
 			os << "];" << endl;
@@ -73,7 +76,11 @@ struct graph {
 	}
 
 	void dot(ostream& os) const {
-		dot([](int i) -> string { return to_string(i); }, os);
+		dot(
+		[](int i) -> string { return to_string(i); },
+		[](const vertex&v) -> bool { return v.is_leaf(); },
+		[](const vertex&) -> bool { return false; },
+		os);
 	}	
 
 	vertex* add(int iv) {
@@ -446,6 +453,7 @@ struct task {
 	int duration;
 	int cost{0};
 	vector<string> text;
+	bool done{false};
 	static int next_id;
 };
 
@@ -505,6 +513,11 @@ void load(istream& is) {
 			getline(lis,lin);
 			tasks.find(id)->second.text.push_back(lin);
 		}
+		else if (type=="done") {
+			int id=0;
+			lis >> id;
+			tasks.find(id)->second.done=true;
+		}
 	}
 }
 
@@ -532,9 +545,14 @@ void text(int id, string v) {
 	cout << "text" << " " << id << " " << v << endl;
 }
 struct leafs:graph::visitor {
-	leafs() {}
+	function<bool (const vertex&)> _is_leaf;
+	leafs(const function<bool (const vertex&v)>& f): _is_leaf(f) {
+	}
+	void start(const vertex&) override {
+		_uniq.clear();
+	}
 	void visit(const vertex&v) override {
-		if (!v.is_leaf()) return;
+		if (!_is_leaf(v)) return;
 		if (_uniq.find(v.id)!=_uniq.end()) return;
 		_uniq.emplace(v.id);
 	}
@@ -545,6 +563,19 @@ struct leafs:graph::visitor {
 			cout << id << " " << _t(id) << endl;
 	}
 };
+
+void update_level(int& lvl, const vertex& v) {
+	int sz=0;
+	for (auto e:v.e) {
+		if (tasks.find(e->to->id)->second.done) continue;
+		++sz;
+	}
+	if (sz==0) lvl=1;
+	if (sz>=1 && lvl==1) lvl=2;
+	if (sz>1 && lvl==2) lvl=3;
+
+
+}
 
 void mp(string cmd) {
 	{
@@ -558,19 +589,32 @@ void mp(string cmd) {
 		os << tasks.find(id)->second.name;
 //		os << "\"";
 		return os.str();
+
 		};
+
+	auto is_leaf=[&](const vertex&v) -> bool {
+		if (tasks.find(v.id)->second.done) return false; // esta fuera del grafo de undone
+		if (v.is_leaf()) return true;
+		for (auto& e:v.e) {
+			if (!tasks.find(e->to->id)->second.done) return false;
+		}
+		return true;
+	};
 
 	graph g(al);
 	if (cmd=="dot") {
-		g.dot(f, cout);
+		auto is_done=[&](const vertex&v) -> bool {
+			return tasks.find(v.id)->second.done;
+		};
+		g.dot(f,is_leaf,is_done, cout);
 	}
 	else if (cmd=="leafs") {
-		leafs visitor;
+		leafs visitor(is_leaf);
 		g.breath_first(goal,visitor);
 		visitor.dump(f,cout);
 	}
 	else if (cmd=="branches") {
-		leafs visitor;
+		leafs visitor(is_leaf);
 		g.breath_first(goal,visitor);
 		
 		for (auto lf:visitor._uniq) {
@@ -578,10 +622,7 @@ void mp(string cmd) {
 			auto f=[&](const vertex& v)-> string { 
 				ostringstream os;
 				const auto& t=tasks.find(v.id)->second;
-				
-				if (v.e.size()==0) lvl=1;
-				if (v.e.size()>=1 && lvl==1) lvl=2;
-				if (v.e.size()>1 && lvl==2) lvl=3;
+				update_level(lvl,v);
 				os << "<div class=\"task" << lvl << "\">" << v.id << ": " << t.name;
 				os << "</div>";
 				return os.str();
