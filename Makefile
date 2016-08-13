@@ -1,3 +1,5 @@
+IDIR=/usr/local/mpeich
+
 all:  pub
 
 mpeich: main.cpp
@@ -13,13 +15,21 @@ graph.png: graph.dot
 leafs: mpeich
 	./mpeich leafs > leafs
 	
-pub: graph.png
+pub: graph.png header.html
 	cp graph.png htdocs/
-	./mpeich branches > htdocs/branches
+	cp red_bl.gif htdocs/
+	cp header.html htdocs/index.html
+	./mpeich branches >> htdocs/index.html
+	echo "</html>" >> htdocs/index.html
+	md5sum htdocs/* > pub
 clean:
 	rm -f mpeich
 	rm -f graph.png
 	rm -f leafs
-	rm -f htdocs/branches
-	rm -f htdocs/graph.png
+	rm -f htdocs/*
+	rm -f pub
+
+install: pub
+	mkdir -p ${IDIR}
+	cp htdocs ${IDIR} -R
 

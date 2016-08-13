@@ -194,16 +194,18 @@ struct best_path:graph::visitor {
 	const vertex* f{0};
 	const vertex* t{0};
 	struct result:vector<const vertex*> {
-		void dump_html(const std::function <string (int)>& _t, ostream& os) const {
-			for (auto i:*this) {
-				os << "<div class=\"task\" id=\"" << i->id << "\">" << _t(i->id) << "</div>" << endl;
-			}
-		}
-		void dump(const std::function <string (int)>& _t, ostream& os) const {
-			for (auto i:*this) os << i->id << " " << _t(i->id) << endl;
+		void dump(const std::function <string (const vertex&)>& _t, ostream& os) const {
+			for (auto i:*this) os << _t(*i) << endl;
 		}
 		void dump(ostream& os) const {
 			for (auto i:*this) os << i->id << endl;
+		}
+		void reverse() {
+			result r;
+			r.reserve(size());
+			for (auto i=rbegin(); i!=rend(); ++i) 
+				r.push_back(*i);
+			*this=r;
 		}
 	};
 	result r;
@@ -468,6 +470,7 @@ void load(istream& is) {
 			int id=0;
 			lis >> id;
 			if (goal==-1) goal=id;
+			lis.ignore(1);
 			string label;
 			getline(lis,label);
 			task t(id,label);
@@ -569,13 +572,30 @@ void mp(string cmd) {
 	else if (cmd=="branches") {
 		leafs visitor;
 		g.breath_first(goal,visitor);
-
+		
 		for (auto lf:visitor._uniq) {
+			int lvl=0;
+			auto f=[&](const vertex& v)-> string { 
+				ostringstream os;
+				const auto& t=tasks.find(v.id)->second;
+				
+				if (v.e.size()==0) lvl=1;
+				if (v.e.size()>=1 && lvl==1) lvl=2;
+				if (v.e.size()>1 && lvl==2) lvl=3;
+				os << "<div class=\"task" << lvl << "\">" << v.id << ": " << t.name;
+				os << "</div>";
+				return os.str();
+			};
+
+
+
+
 			cout << "<div class=\"branch\">" << endl;
 			typedef best_path<scalar<int>,data> pathfinder;
 			pathfinder bp(g);
 			auto r=bp.compute(goal,lf,pathfinder::breath_first);
-			r.dump_html(f,cout);
+			r.reverse();
+			r.dump(f,cout);
 			cout << "</div>" << endl;
 		}
 		
