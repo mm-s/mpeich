@@ -42,26 +42,24 @@ dep 20 -> 19
 dep 2 -> 20
 task 21 transporte
 task 22 transportar basura a punto limpio
-task 23 transportar a trasteros
 task 24 transportar trastero Judith
 task 25 transportar trastero Noe
 task 26 transportar trastero Alquilado
 task 27 preparar trastero Noe
 dep 25 -> 27
 dep 21 -> 22
-dep 21 -> 23
-dep 23 -> 26
+dep 21 -> 26
 dep 25 -> 24
 dep 26 -> 25
 task 28 contratar trastero
 dep 26 -> 28
-task 29 saber disponibilidad
+task 29 saber disponibilidad trastero alq.
 dep 28 -> 29
 dep 4 -> 14
 dep 19 -> 21
 task 30 hacer cajas
 dep 24 -> 30
-task 31 trocear
+task 31 trocear sofas
 dep 18 -> 19
 dep 22 -> 31
 task 32 desmontar
@@ -134,3 +132,40 @@ dep 58 -> 62
 dep 59 -> 62
 dep 60 -> 62
 dep 61 -> 62
+task 63 ruben en madrid
+dep 34 -> 63
+dep 34 -> 33
+task 64 trocear sofa salon
+dep 31 -> 64
+dep 33 -> 31
+task 65 mover cajas a cocina
+dep 33 -> 64
+task 66 buscar tienda nevera
+dep 57 -> 66
+task 67 identificar nevera
+dep 57 -> 67
+task 68 ir a Leroy Merlin
+dep 48 -> 68
+dep 43 -> 63
+task 69 comprar escayola
+dep 69 -> 68
+dep 43 -> 69
+dep 56 -> 67
+dep 66 -> 67
+task 70 ir a Ikea
+dep 50 -> 70
+task 71 identificar tiradores cocina
+dep 70 -> 71
+dep 51 -> 63
+dep 6 -> 63
+dep 9 -> 63
+dep 41 -> 63
+task 72 ir a tienda luces
+dep 62 -> 72
+dep 43 -> 44 
+dep 40 -> 63
+task 73 aida en madrid
+dep 13 -> 73
+dep 6 -> 73
+dep 64 -> 63
+dep 72 -> 63
