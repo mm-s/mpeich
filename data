@@ -96,7 +96,7 @@ task 45 nevera
 dep 35 -> 45
 task 46 tiradores cocina
 dep 35 -> 46
-task 47 cisterna vater
+task 47 instalar cisterna vater
 dep 35 -> 47
 task 48 comprar kits papel higienico
 dep 35 -> 48
@@ -170,4 +170,5 @@ dep 6 -> 73
 dep 64 -> 63
 dep 72 -> 63
 done 71
+done 53
 
