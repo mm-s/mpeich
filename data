@@ -49,8 +49,6 @@ task 27 preparar trastero Noe
 dep 25 -> 27
 dep 21 -> 22
 dep 21 -> 26
-dep 25 -> 24
-dep 26 -> 25
 task 28 contratar trastero
 dep 26 -> 28
 task 29 saber disponibilidad trastero alq.
@@ -171,4 +169,21 @@ dep 64 -> 63
 dep 72 -> 63
 done 71
 done 53
+task 74 sillas exterior a basura
+dep 22 -> 74
+task 75 manchas jarabe lavadora
+dep 18 -> 75
+task 76 comprar caseta
+task 77 instalar caseta
+task 78 transportar a caseta
+dep 78 -> 77
+dep 77 -> 76
+dep 21 -> 78
+dep 21 -> 25
+dep 21 -> 24
+dep 25 -> 30
+dep 26 -> 30
+dep 78 -> 30
+task 79 buscar oferta caseta
+dep 76 -> 79
 
