@@ -32,7 +32,6 @@ dep 14 -> 15
 task 16 mover astra
 dep 15 -> 16
 task 17 buscar parking astra
-dep 16 -> 17
 task 18 casa limpia
 dep 14 -> 18
 task 19 casa vacia
@@ -193,10 +192,19 @@ task 81 arrancar astra
 task 82 poner bateria astra
 dep 81 -> 82
 task 83 contratar seguro astra
-dep 16 -> 83
+dep 83 -> 81
 task 84 llamar grua
 dep 84 -> 17
 text 84 cancela 81
 text 81 cancela 84
-dep 16 -> 81
+dep 16 -> 83
+task 85 decidir si astra va a la tierra
+text 85 discutir con parents
+dep 17 -> 85
+dep 84 -> 81
+dep 16 -> 84
+dep 16 -> 17
+task 86 decidir dejar astra en garaje
+dep 15 -> 86
+
 
