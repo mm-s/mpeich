@@ -186,4 +186,17 @@ dep 26 -> 30
 dep 78 -> 30
 task 79 buscar oferta caseta
 dep 76 -> 79
+task 80 discutir tema caseta
+dep 80 -> 79
+text 80 padres marcos
+task 81 arrancar astra
+task 82 poner bateria astra
+dep 81 -> 82
+task 83 contratar seguro astra
+dep 16 -> 83
+task 84 llamar grua
+dep 84 -> 17
+text 84 cancela 81
+text 81 cancela 84
+dep 16 -> 81
 
