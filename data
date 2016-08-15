@@ -70,9 +70,10 @@ dep 21 -> 26
 task 28 contratar trastero
 who 28 aida
 dep 26 -> 28
-task 29 saber disponibilidad trastero alq.
+task 29 confirmar disponibilidad/$ trastero alq.
 who 29 aida
-dep 28 -> 29
+text 29 tardan 10 dias
+text 29 110 eur/mes inicial:110 eur (confirmar)
 dep 4 -> 14
 dep 19 -> 21
 task 30 hacer cajas
@@ -127,7 +128,6 @@ task 43 agujero pasillo
 who 42 ruben
 dep 35 -> 43
 task 44 instalar luces
-who 44 ruben
 dep 35 -> 44
 task 45 nevera
 dep 35 -> 45
@@ -154,22 +154,31 @@ dep 52 -> 51
 task 53 comprar pieza cisterna vater
 dep 47 -> 53
 task 54 poner tiradores nevera
+who 54 ruben
 task 55 poner cajones nevera
+who 55 ruben
 task 56 comprar tiradores nevera
+who 56 ruben
 task 57 comprar cajones nevera
+who 57 ruben
 dep 54 -> 56
 dep 55 -> 57
 dep 45 -> 54
 dep 45 -> 55
-task 58 luces pasillo
-task 59 luces hall
-task 60 luces cocina
-task 61 luces baños
+task 58 instalar luces pasillo
+who 58 ruben
+task 59 instalar luces hall
+who 59 ruben
+task 60 instalar luces cocina
+who 60 ruben
+task 61 instalar luces baños
+who 61 ruben
 dep 44 -> 58
 dep 44 -> 59
 dep 44 -> 60
 dep 44 -> 61
-task 62 comprar luces
+task 62 encargar luces
+who 62 ruben
 dep 58 -> 62
 dep 59 -> 62
 dep 60 -> 62
@@ -185,6 +194,7 @@ dep 33 -> 64
 task 66 buscar tienda nevera
 dep 57 -> 66
 task 67 identificar nevera
+who 67 noe
 dep 57 -> 67
 task 68 ir a Leroy Merlin
 dep 48 -> 68
@@ -203,15 +213,13 @@ dep 51 -> 63
 dep 6 -> 63
 dep 9 -> 63
 dep 41 -> 63
-task 72 ir a tienda luces
-dep 62 -> 72
+dep 62 -> 63
 dep 43 -> 44 
 dep 40 -> 63
 task 73 aida en madrid
 dep 13 -> 73
 dep 6 -> 73
 dep 64 -> 63
-dep 72 -> 63
 done 71
 done 53
 task 74 sillas exterior a basura
@@ -258,5 +266,30 @@ dep 24 -> 87
 dep 26 -> 87
 dep 78 -> 87
 dep 22 -> 87
-
+task 88 reemplazar encimera
+who 88 ruben
+dep 35 -> 88
+task 89 comprar material empapelar
+text 89 cinta carrocero
+text 89 papel empapelar
+task 90 ir a pinturas borregero
+dep 39 -> 90
+task 91 decidir contratar trastero
+dep 91 -> 29
+dep 28 -> 91
+dep 90 -> 63
+dep 68 -> 63
+task 92 acuchillar parquet
+task 93 poner tarima
+task 94 dejar parquet como esta
+task 95 tratamiento parquet
+task 96 decidir que hacer al parquet
+dep 49 -> 92
+dep 49 -> 93
+dep 49 -> 94
+dep 49 -> 95
+dep 92 -> 96
+dep 93 -> 96
+dep 94 -> 96
+dep 95 -> 96
 

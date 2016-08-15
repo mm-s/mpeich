@@ -448,6 +448,15 @@ struct task {
 	task(int id_, string n): name(n), duration(0), id(id_) {
 		if (next_id<=id_) next_id=id_+1;
 	}
+	struct worker {
+		worker(string name_, bool req): name(name_), required(req) {}
+		string name;
+		bool required;
+	};
+	vector<worker> workers;
+	void add_worker(string name, bool required) {
+		workers.emplace_back(name,required);
+	}
 	int id;
 	string name;
 	int duration;
@@ -517,6 +526,15 @@ void load(istream& is) {
 			int id=0;
 			lis >> id;
 			tasks.find(id)->second.done=true;
+		}
+		else if (type=="who") {
+			int id=0;
+			lis >> id;
+			string who;
+			lis >> who;
+			string code;
+			lis >> code;
+			tasks.find(id)->second.add_worker(who,code=="r");
 		}
 	}
 }
