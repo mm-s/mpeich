@@ -1,27 +1,39 @@
 task 1 inquilino dentro
 task 2 firma contrato
+who 2 ruben
 dep 1 -> 2
 task 3 preparar contrato
 dep 2 -> 3
 task 4 visita
+who 4 ruben
+who 4 pedro
 dep 2 -> 4
 task 5 poder ruben
 dep 4 -> 5
 task 6 ir notario
+who 6 aida r
+who 6 ruben r
 dep 5 -> 6
 task 7 investigar mercado
+who 7 aida
+who 7 marcos
 task 8 decidir precio
-task 9 ruben ir EMV
+task 9 ir a EMV
+who 9 ruben
 dep 8 -> 9
 dep 8 -> 7
 task 10 redactar anuncio
+who 10 aida
+who 10 marcos
 dep 10 -> 8
 task 11 sacar fotos
+who 11 ruben
 task 12 publicar
 dep 12 -> 10
 dep 12 -> 11
 dep 4 -> 12
 task 13 cita con hacienda
+who 13 aida
 dep 8 -> 13
 dep 3 -> 13
 dep 3 -> 9
@@ -32,6 +44,7 @@ dep 14 -> 15
 task 16 mover astra
 dep 15 -> 16
 task 17 buscar parking astra
+task 16 mover astra
 task 18 casa limpia
 dep 14 -> 18
 task 19 casa vacia
@@ -41,61 +54,91 @@ dep 20 -> 19
 dep 2 -> 20
 task 21 transporte
 task 22 transportar basura a punto limpio
+who 22 jesus r
 task 24 transportar trastero Judith
+who 24 jesus r
 task 25 transportar trastero Noe
+who 25 jesus r
 task 26 transportar trastero Alquilado
+who 26 jesus r
 task 27 preparar trastero Noe
+who 27 noe r
+who 27 pedro r
 dep 25 -> 27
 dep 21 -> 22
 dep 21 -> 26
 task 28 contratar trastero
+who 28 aida
 dep 26 -> 28
 task 29 saber disponibilidad trastero alq.
+who 29 aida
 dep 28 -> 29
 dep 4 -> 14
 dep 19 -> 21
 task 30 hacer cajas
+who 30 noe
+who 30 ruben
+who 30 pedro
+who 30 pilar
 dep 24 -> 30
 task 31 trocear sofas
+who 31 ruben 
 dep 18 -> 19
 dep 22 -> 31
 task 32 desmontar
 task 33 desmontar cama
+who 33 ruben
+who 33 noe
 task 34 desmontar estanterias
+who 34 ruben
+who 34 noe
 dep 32 -> 33
 dep 32 -> 34
 dep 19 -> 32
 task 35 arreglos
 dep 14 -> 35
 task 36 vaciar dormitorio
+who 36 ruben
+who 36 noe
 task 37 pintar dormitorio
+who 37 ruben
 dep 19 -> 36
 dep 37 -> 36
 task 38 pintar casa
+who 38 ruben
 dep 38 -> 37
 dep 35 -> 38
 task 39 comprar pintura
+who 39 ruben
 dep 37 -> 39
 dep 38 -> 39
 cost 39 100
 text 39 25 Kg x 3 
 task 40 humedades
+who 40 ruben
 dep 35 -> 40
 task 41 goteras
+who 41 ruben
 dep 35 -> 41
 task 42 puerta terraza
+who 42 ruben
 dep 35 -> 42
 task 43 agujero pasillo
+who 42 ruben
 dep 35 -> 43
-task 44 luces
+task 44 instalar luces
+who 44 ruben
 dep 35 -> 44
 task 45 nevera
 dep 35 -> 45
-task 46 tiradores cocina
+task 46 instalar tiradores cocina
+who 46 ruben
 dep 35 -> 46
 task 47 instalar cisterna vater
+who 47 ruben
 dep 35 -> 47
 task 48 comprar kits papel higienico
+who 48 ruben
 dep 35 -> 48
 task 49 parquet
 dep 35 -> 49
@@ -103,6 +146,8 @@ dep 49 -> 38
 task 50 comprar tiradores cocina
 dep 46 -> 50
 task 51 investigar puerta terraza
+text 51 reemplazar rodamiento
+text 51 poner gancho cierre
 task 52 comprar piezas puerta terraza
 dep 42 -> 52
 dep 52 -> 51
@@ -142,6 +187,7 @@ dep 57 -> 66
 task 67 identificar nevera
 dep 57 -> 67
 task 68 ir a Leroy Merlin
+dep 48 -> 68
 dep 48 -> 68
 dep 43 -> 63
 task 69 comprar escayola
@@ -186,7 +232,7 @@ dep 78 -> 30
 task 79 buscar oferta caseta
 dep 76 -> 79
 task 80 discutir tema caseta
-dep 80 -> 79
+dep 79 -> 80
 text 80 padres marcos
 task 81 arrancar astra
 task 82 poner bateria astra
@@ -206,5 +252,11 @@ dep 16 -> 84
 dep 16 -> 17
 task 86 decidir dejar astra en garaje
 dep 15 -> 86
+task 87 saber disponibilidad furgoneta
+del 25 -> 87
+dep 24 -> 87
+dep 26 -> 87
+dep 78 -> 87
+dep 22 -> 87
 
 
