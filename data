@@ -139,7 +139,6 @@ who 47 ruben
 dep 35 -> 47
 task 48 comprar kits papel higienico
 who 48 ruben
-dep 35 -> 48
 task 49 parquet
 dep 35 -> 49
 dep 49 -> 38
@@ -208,6 +207,7 @@ dep 66 -> 67
 task 70 ir a Ikea
 dep 50 -> 70
 task 71 identificar tiradores cocina
+done 71
 dep 70 -> 71
 dep 51 -> 63
 dep 6 -> 63
@@ -222,12 +222,18 @@ dep 6 -> 73
 dep 64 -> 63
 done 71
 done 53
-task 74 sillas exterior a basura
+task 74 amontonar sillas exterior para basura
+text 74 facilitar la carga en furgoneta
+who 74 noe
+who 74 ruben
 dep 22 -> 74
 task 75 manchas jarabe lavadora
+who 75 pilar
 dep 18 -> 75
 task 76 comprar caseta
+who 76 aida
 task 77 instalar caseta
+who 77 marmanov
 task 78 transportar a caseta
 dep 78 -> 77
 dep 77 -> 76
@@ -295,4 +301,11 @@ dep 92 -> 96
 dep 93 -> 96
 dep 94 -> 96
 dep 95 -> 96
+task 97 instalar kits servicio
+who 97 ruben
+who 97 noe
+dep 35 -> 97
+dep 97 -> 48
 
+done 70
+done 50

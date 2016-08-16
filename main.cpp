@@ -60,7 +60,7 @@ struct graph {
 	void dot(const P& pred, const function<bool(const vertex&)>& is_leaf, const function<bool(const vertex&)>& is_done, ostream& os) const {
 		os << "digraph {" << endl;
 		for (auto v: V) {
-			os << "task" << v.second->id << "[label=\"" << v.second->id << ": " << pred(v.second->id) << "\"";
+			os << "task" << v.second->id << "[label=<" << v.second->id << ": " << pred(v.second->id) << ">";
 			if (is_done(*v.second)) {
 				os << ",color=green";
 			}
@@ -454,6 +454,16 @@ struct task {
 		bool required;
 	};
 	vector<worker> workers;
+
+	string get_workers() const {
+		ostringstream os;
+		for (auto& w: workers) {
+			os << (w.required?"!":"") << w.name << " ";
+		}
+		return os.str();
+	}
+
+
 	void add_worker(string name, bool required) {
 		workers.emplace_back(name,required);
 	}
@@ -621,6 +631,18 @@ void mp(string cmd) {
 
 	graph g(al);
 	if (cmd=="dot") {
+
+		auto f=[&](int id)-> string { 
+			ostringstream os;
+			const auto& t=tasks.find(id)->second;
+	//		os << "\"";
+			os << t.name;
+			os << "<BR /><FONT POINT-SIZE=\"10\">(" << t.get_workers() << ")</FONT>";
+//			os << "\"";
+			return os.str();
+
+			};
+
 		auto is_done=[&](const vertex&v) -> bool {
 			return tasks.find(v.id)->second.done;
 		};
