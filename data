@@ -270,6 +270,9 @@ task 88 reemplazar encimera
 who 88 ruben
 dep 35 -> 88
 task 89 comprar material empapelar
+dep 89 -> 68
+dep 37 -> 89
+dep 38 -> 89
 text 89 cinta carrocero
 text 89 papel empapelar
 task 90 ir a pinturas borregero
