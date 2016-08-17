@@ -197,7 +197,7 @@ who 67 noe
 dep 57 -> 67
 task 68 ir a Leroy Merlin
 who 68 aida
-who 86 noemi
+who 68 noemi
 who 68 pedro
 dep 48 -> 68
 dep 48 -> 68
@@ -324,7 +324,7 @@ who 101 aida r
 who 101 noe r
 who 101 pilar r
 task 102 tomar medidas encimera
-dep 101 -> 102
+dep 103 -> 102
 task 103 ir a Madegar (SSReyes)
 dep 101 -> 103
 task 104 comprar embellecedor encimera
@@ -347,3 +347,8 @@ task 109 saber superficie de parquet (m2)
 task 110 comprar tarima
 dep 110 -> 109
 dep 92 -> 109
+dep 108 -> 96
+dep 96 -> 106
+dep 96 -> 107
+dep 110 -> 96
+

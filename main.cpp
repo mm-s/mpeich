@@ -486,9 +486,11 @@ vector<pair<int,int>> al; //adjacency list
 int goal=-1;
 
 void load(istream& is) {
+	int ln=0;
 	while(!is.eof()) {
 		string line;
 		getline(is,line);
+		//cerr << "line " << ++ln << endl;
 		if (line.empty()) continue;
 		istringstream lis(line);
 		string type;
