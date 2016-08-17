@@ -196,6 +196,9 @@ task 67 identificar nevera
 who 67 noe
 dep 57 -> 67
 task 68 ir a Leroy Merlin
+who 68 aida
+who 86 noemi
+who 68 pedro
 dep 48 -> 68
 dep 48 -> 68
 dep 43 -> 63
@@ -267,6 +270,7 @@ dep 16 -> 17
 task 86 decidir dejar astra en garaje
 dep 15 -> 86
 task 87 saber disponibilidad furgoneta
+who 87 aida
 del 25 -> 87
 dep 24 -> 87
 dep 26 -> 87
@@ -290,22 +294,56 @@ dep 90 -> 63
 dep 68 -> 63
 task 92 acuchillar parquet
 task 93 poner tarima
-task 94 dejar parquet como esta
 task 95 tratamiento parquet
 task 96 decidir que hacer al parquet
 dep 49 -> 92
 dep 49 -> 93
-dep 49 -> 94
 dep 49 -> 95
 dep 92 -> 96
 dep 93 -> 96
-dep 94 -> 96
 dep 95 -> 96
 task 97 instalar kits servicio
 who 97 ruben
 who 97 noe
 dep 35 -> 97
 dep 97 -> 48
-
 done 70
 done 50
+task 98 investigar acciones para ICE
+dep 20 -> 98
+task 99 cita previa hacienda
+task 13 -> 99
+text 8 1200 eur
+dep 85 -> 81
+task 100 llevar bateria 
+dep 82 -> 100
+dep 88 -> 63
+task 101 comprar encimera
+dep 88 -> 101
+who 101 aida r
+who 101 noe r
+who 101 pilar r
+task 102 tomar medidas encimera
+dep 101 -> 102
+task 103 ir a Madegar (SSReyes)
+dep 101 -> 103
+task 104 comprar embellecedor encimera
+task 105 comprar silicona y utiles
+dep 104 -> 103
+dep 105 -> 103
+dep 88 -> 101
+dep 88 -> 104
+dep 88 -> 105
+task 106 investigar coste y tiempo acuchillar
+dep 92 -> 106
+who 106 aida
+task 107 investigar coste y tiempo tarima
+text 107 1 semana x lo menos, hay que cortar puertas
+dep 93 -> 107
+who 107 aida
+task 108 recortar puertas
+dep 93 -> 108
+task 109 saber superficie de parquet (m2)
+task 110 comprar tarima
+dep 110 -> 109
+dep 92 -> 109
