@@ -187,14 +187,13 @@ dep 34 -> 63
 dep 34 -> 33
 task 64 trocear sofa salon
 dep 31 -> 64
-dep 33 -> 31
 task 65 mover cajas a cocina
 dep 33 -> 64
 task 66 buscar tienda nevera
+who 66 aida
 dep 57 -> 66
 task 67 identificar nevera
 who 67 noe
-dep 57 -> 67
 task 68 ir a Leroy Merlin
 who 68 aida
 who 68 noemi
@@ -205,7 +204,7 @@ dep 43 -> 63
 task 69 comprar escayola
 dep 69 -> 68
 dep 43 -> 69
-dep 56 -> 67
+dep 56 -> 66
 dep 66 -> 67
 task 70 ir a Ikea
 dep 50 -> 70
@@ -291,7 +290,6 @@ task 91 decidir contratar trastero
 dep 91 -> 29
 dep 28 -> 91
 dep 90 -> 63
-dep 68 -> 63
 task 92 acuchillar parquet
 task 93 poner tarima
 task 95 tratamiento parquet
@@ -351,4 +349,16 @@ dep 108 -> 96
 dep 96 -> 106
 dep 96 -> 107
 dep 110 -> 96
+done 67
+text 67 http://goo.gl/6rnLul
+done 74
+task 111 despejar salon
+task 112 mover cajas a cocina, hall o astra
+dep 111 -> 112
+dep 33 -> 111
+task 113 mover basura fura del salon
+dep 111 -> 113
+dep 113 -> 31
+dep 113 -> 64
+
 
