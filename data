@@ -51,7 +51,7 @@ task 19 casa vacia
 dep 14 -> 19
 task 20 Inspeccion calif energetica
 dep 20 -> 19
-dep 2 -> 20
+dep 3 -> 20
 task 21 transporte
 task 22 transportar basura a punto limpio
 who 22 jesus r
@@ -81,7 +81,6 @@ who 30 noe
 who 30 ruben
 who 30 pedro
 who 30 pilar
-dep 24 -> 30
 task 31 trocear sofas
 who 31 ruben 
 dep 18 -> 19
@@ -242,9 +241,6 @@ dep 77 -> 76
 dep 21 -> 78
 dep 21 -> 25
 dep 21 -> 24
-dep 25 -> 30
-dep 26 -> 30
-dep 78 -> 30
 task 79 buscar oferta caseta
 dep 76 -> 79
 task 80 discutir tema caseta
@@ -268,13 +264,6 @@ dep 16 -> 84
 dep 16 -> 17
 task 86 decidir dejar astra en garaje
 dep 15 -> 86
-task 87 saber disponibilidad furgoneta
-who 87 aida
-del 25 -> 87
-dep 24 -> 87
-dep 26 -> 87
-dep 78 -> 87
-dep 22 -> 87
 task 88 reemplazar encimera
 who 88 ruben
 dep 35 -> 88
@@ -360,5 +349,17 @@ task 113 mover basura fura del salon
 dep 111 -> 113
 dep 113 -> 31
 dep 113 -> 64
-
+done 102
+done 109
+text 109 m2= preguntar pedro
+task 114 hacer ultima caja
+dep 114 -> 30
+task 115 acumular cajas
+dep 24 -> 116
+dep 25 -> 116
+dep 26 -> 116
+dep 78 -> 116
+task 116 hacer primera caja
+dep 115 -> 116
+done 116
 
