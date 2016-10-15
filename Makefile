@@ -1,5 +1,5 @@
 IDIR=/usr/local/mpeich
-file=data
+file=examples/home_cleaning
 outdir=htdocs
 
 all:  pub
@@ -9,7 +9,7 @@ datalog:
 
 
 mpeich: main.cpp
-	g++ -g -std=c++14 main.cpp -o mpeich
+	g++ -g -O0 -std=c++14 main.cpp -o mpeich
 
 graph.dot: mpeich ${file}
 	./mpeich -f ${file} dot > graph.dot

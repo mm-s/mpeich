@@ -1,3 +1,4 @@
+task 11 pick up family from airport
 task 1 wash dishes
 task 2 scrub kitchen
 dep 2 -> 1
@@ -14,7 +15,6 @@ task 9 clean wc
 task 10 clean kitchen counter
 dep 2 -> 10
 done 5
-task 11 pick up family from airport
 dep 11 -> 3
 dep 11 -> 6
 

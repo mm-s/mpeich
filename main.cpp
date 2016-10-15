@@ -61,6 +61,7 @@ vector<pair<int,int>> al; //adjacency list
 int goal=-1;
 
 void load(istream& is) {
+	if (!is.good()) return;
 	int ln=0;
 	while(!is.eof()) {
 		string line;
@@ -184,15 +185,6 @@ void update_level(int& lvl, const vertex& v) {
 
 int main(int argc, char** argv) {
 	string filename="data";
-	if (argc<2) {
-		cout << "mpeich [-f <datafile>] <command>:" << endl;
-		cout << "generates dependency information on the tasks defined in the data file" << endl;
-		cout << "commands:" << endl;
-		cout << " dot        generates dot file" << endl;
-		cout << " leafs      print blocking tasks" << endl;
-		cout << " branches   print all task branches" << endl;
-		return 1;
-	}
 	string cmd;
 	for (int i=1; i<argc; ++i) {
 		string item=argv[i];
@@ -203,12 +195,9 @@ int main(int argc, char** argv) {
 			continue;
 		}
 		cmd=argv[i];
+		ifstream is(filename);
+		load(is);
 		break;
-	}
-
-	{
-	ifstream is(filename);
-	load(is);
 	}
 
 	auto f=[&](int id)-> string { 
@@ -268,7 +257,17 @@ int main(int argc, char** argv) {
 			cout << "</div>" << endl;
 		}
 	}
+	else {
+		cout << "mpeich [-f <datafile>] <command>:" << endl;
+		cout << "generates dependency information on the tasks defined in the data file" << endl;
+		cout << "commands:" << endl;
+		cout << " dot        generates dot file" << endl;
+		cout << " leafs      print blocking tasks" << endl;
+		cout << " branches   print all task branches" << endl;
+		return 1;
+	}
 
+	return 0;
 }
 
 
