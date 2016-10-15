@@ -20,6 +20,7 @@ leafs: mpeich
 	./mpeich leafs > leafs
 	
 pub: graph.png header.html datalog
+	mkdir -p htdocs
 	cp graph.png htdocs/
 	cp red_bl.gif htdocs/
 	cp header.html htdocs/index.html
