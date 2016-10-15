@@ -182,17 +182,38 @@ void update_level(int& lvl, const vertex& v) {
 
 }
 
-void mp(string cmd) {
+int main(int argc, char** argv) {
+	string filename="data";
+	if (argc<2) {
+		cout << "mpeich [-f <datafile>] <command>:" << endl;
+		cout << "generates dependency information on the tasks defined in the data file" << endl;
+		cout << "commands:" << endl;
+		cout << " dot        generates dot file" << endl;
+		cout << " leafs      print blocking tasks" << endl;
+		cout << " branches   print all task branches" << endl;
+		return 1;
+	}
+	string cmd;
+	for (int i=1; i<argc; ++i) {
+		string item=argv[i];
+		if (item=="-f") {
+			++i;
+			if (i>=argc) break;
+			filename=argv[i];
+			continue;
+		}
+		cmd=argv[i];
+		break;
+	}
+
 	{
-	ifstream is("data");
+	ifstream is(filename);
 	load(is);
 	}
 
 	auto f=[&](int id)-> string { 
 		ostringstream os;
-//		os << "\"";
 		os << tasks.find(id)->second.name;
-//		os << "\"";
 		return os.str();
 
 		};
@@ -208,18 +229,13 @@ void mp(string cmd) {
 
 	graph g(al);
 	if (cmd=="dot") {
-
 		auto f=[&](int id)-> string { 
 			ostringstream os;
 			const auto& t=tasks.find(id)->second;
-	//		os << "\"";
 			os << t.name;
 			os << "<BR /><FONT POINT-SIZE=\"10\">(" << t.get_workers() << ")</FONT>";
-//			os << "\"";
 			return os.str();
-
 			};
-
 		auto is_done=[&](const vertex&v) -> bool {
 			return tasks.find(v.id)->second.done;
 		};
@@ -233,7 +249,6 @@ void mp(string cmd) {
 	else if (cmd=="branches") {
 		leafs visitor(is_leaf);
 		g.breath_first(goal,visitor);
-		
 		for (auto lf:visitor._uniq) {
 			int lvl=0;
 			auto f=[&](const vertex& v)-> string { 
@@ -244,10 +259,6 @@ void mp(string cmd) {
 				os << "</div>";
 				return os.str();
 			};
-
-
-
-
 			cout << "<div class=\"branch\">" << endl;
 			typedef best_path<scalar<int>,data> pathfinder;
 			pathfinder bp(g);
@@ -256,21 +267,10 @@ void mp(string cmd) {
 			r.dump(f,cout);
 			cout << "</div>" << endl;
 		}
-		
 	}
 
 }
 
 
-int main(int argc, char** argv) {
-	if (argc!=2) {
-		cout << "dot leafs branches" << endl;
-		return 1;
-	}
-	string cmd=argv[1];
-	
-	mp(cmd);
-	return 0;
-}
 
 

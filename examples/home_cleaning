@@ -1,0 +1,20 @@
+task 1 wash dishes
+task 2 scrub kitchen
+dep 2 -> 1
+task 3 scrub living room
+dep 3 -> 2
+task 4 collect dirty clothes
+task 5 washing machine duty
+dep 4 -> 5
+task 6 clothesline
+dep 6 -> 4
+task 7 classify clothes
+task 8 vacuum clean carpet
+task 9 clean wc
+task 10 clean kitchen counter
+dep 2 -> 10
+done 5
+task 11 pick up family from airport
+dep 11 -> 3
+dep 11 -> 6
+

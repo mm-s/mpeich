@@ -1,44 +1,48 @@
 IDIR=/usr/local/mpeich
+file=data
+outdir=htdocs
 
 all:  pub
 
 datalog:
-	git log --no-decorate -n3 data | grep -v "^Author" | grep -v "^commit" | sed "s/^Date: *\(.*\)/\1/" | grep -v '^$$' > datalog
+	git log --no-decorate -n3 ${file} | grep -v "^Author" | grep -v "^commit" | sed "s/^Date: *\(.*\)/\1/" | grep -v '^$$' > datalog
 
 
 mpeich: main.cpp
 	g++ -g -std=c++14 main.cpp -o mpeich
 
-graph.dot: mpeich data
-	./mpeich dot > graph.dot
+graph.dot: mpeich ${file}
+	./mpeich -f ${file} dot > graph.dot
 
 
 graph.png: graph.dot
 	dot -Tpng graph.dot -o graph.png	
 
 leafs: mpeich
-	./mpeich leafs > leafs
+	./mpeich -f ${file} leafs > leafs
 	
 pub: graph.png header.html datalog
-	mkdir -p htdocs
-	cp graph.png htdocs/
-	cp red_bl.gif htdocs/
-	cp header.html htdocs/index.html
-	echo '<pre class="datalog">' >> htdocs/index.html
-	cat datalog >> htdocs/index.html
-	echo "</pre>" >> htdocs/index.html
-	./mpeich branches >> htdocs/index.html
-	echo "</html>" >> htdocs/index.html
+	mkdir -p ${outdir}
+	cp graph.png ${outdir}/
+	cp red_bl.gif ${outdir}/
+	cp header.html ${outdir}/index.html
+	echo '<pre class="datalog">' >> ${outdir}/index.html
+	cat datalog >> ${outdir}/index.html
+	echo "</pre>" >> ${outdir}/index.html
+	./mpeich -f ${file} branches >> ${outdir}/index.html
+	echo "</html>" >> ${outdir}/index.html
 	
-	md5sum htdocs/* > pub
+	md5sum ${outdir}/* > pub
 clean:
 	rm -f mpeich
 	rm -f graph.png
 	rm -f leafs
-	rm -f htdocs/*
+	rm -f ${outdir}/*
 	rm -f pub
+	rm datalog
+	rm graph.dot
 
 install: pub
 	mkdir -p ${IDIR}
-	cp htdocs ${IDIR} -R
+	cp ${outdir} ${IDIR} -R
 
