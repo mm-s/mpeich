@@ -150,7 +150,7 @@ void text(int id, string v) {
 	tasks.find(id)->second.text.push_back(v);
 	cout << "text" << " " << id << " " << v << endl;
 }
-struct leafs:graph::visitor {
+struct leafs:graph<>::visitor {
 	function<bool (const vertex&)> _is_leaf;
 	leafs(const function<bool (const vertex&v)>& f): _is_leaf(f) {
 	}
@@ -216,7 +216,7 @@ int main(int argc, char** argv) {
 		return true;
 	};
 
-	graph g(al);
+	graph<> g(al);
 	if (cmd=="dot") {
 		auto f=[&](int id)-> string { 
 			ostringstream os;
@@ -228,7 +228,7 @@ int main(int argc, char** argv) {
 		auto is_done=[&](const vertex&v) -> bool {
 			return tasks.find(v.id)->second.done;
 		};
-		g.dot(f,is_leaf,is_done, cout);
+		g.make_dot(f,is_leaf,is_done,[](const edge&) -> string { return ""; },true, cout);
 	}
 	else if (cmd=="leafs") {
 		leafs visitor(is_leaf);
@@ -239,21 +239,41 @@ int main(int argc, char** argv) {
 		leafs visitor(is_leaf);
 		g.breath_first(goal,visitor);
 		for (auto lf:visitor._uniq) {
-			int lvl=0;
-			auto f=[&](const vertex& v)-> string { 
-				ostringstream os;
-				const auto& t=tasks.find(v.id)->second;
-				update_level(lvl,v);
-				os << "<div class=\"task" << lvl << "\">" << v.id << ": " << t.name;
-				os << "</div>";
-				return os.str();
-			};
 			cout << "<div class=\"branch\">" << endl;
+
+			auto sp=g.spt_dijkstra(goal,lf).second.get_sp(lf);
+
+			struct printer:graph<>::visitor {
+				ostream&os;
+				printer(ostream&os): os(os) {
+				}
+				void visit(const vertex&v) override {
+					const auto& t=tasks.find(v.id)->second;
+					int lvl=0;
+					update_level(lvl,v);
+					ostringstream os2;
+					os2 << "<div class=\"task" << lvl << "\">" << v.id << ": " << t.name;
+					os2 << "</div>";
+					m.push_back(os2.str());
+				}
+				vector<string> m;
+				void finished() override {
+					for (auto i=m.crbegin(); i!=m.crend(); ++i)
+						os << *i;
+				}
+			};
+			printer p(cout);
+			//sp.reverse();
+			sp.depth_first(goal,p);
+
+
+/*
 			typedef best_path<scalar<int>,data> pathfinder;
 			pathfinder bp(g);
 			auto r=bp.compute(goal,lf,pathfinder::breath_first);
 			r.reverse();
 			r.dump(f,cout);
+*/
 			cout << "</div>" << endl;
 		}
 	}
