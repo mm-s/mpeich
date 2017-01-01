@@ -1,0 +1,47 @@
+task 1 relocation completed
+task 2 receive signed contract from new employer
+task 3 notify current employer and start notice period
+task 4 integrate motorcycle
+task 5 gather empty boxes 
+task 6 pack boxes
+task 7 hire van
+task 8 make craiglist scrapper
+task 9 notify current landlord
+task 10 gather cash
+task 11 ask for loan to new employer
+task 12 ask for loan to bank
+task 13 buy grass seeds
+task 14 buy tool for seeding grass
+task 15 plant seeds in the garden
+task 16 unmount garden gazebo
+task 17 last van load
+dep 3 -> 2
+dep 7 -> 6
+dep 17 -> 7
+dep 7 -> 10
+dep 7 -> 16
+dep 10 -> 11
+dep 10 -> 12
+dep 9 -> 2
+task 18 return keys to current landlord
+dep 18 -> 9
+task 19 last day of work current employer
+dep 19 -> 3
+dep 15 -> 14
+dep 15 -> 13
+dep 18 -> 15
+task 20 clean current house
+dep 18 -> 20
+dep 18 -> 17
+dep 7 -> 4
+dep 6 -> 5
+task 21 get keys new home
+dep 7 -> 21
+dep 21 -> 8
+task 22 last unload van new home
+task 23 return van
+dep 23 -> 22
+dep 1 -> 23
+dep 22 -> 18
+dep 22 -> 19
+
