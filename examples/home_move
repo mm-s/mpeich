@@ -44,4 +44,6 @@ dep 23 -> 22
 dep 1 -> 23
 dep 22 -> 18
 dep 22 -> 19
+task 24 accumulate items to pack
+dep 6 -> 24
 
